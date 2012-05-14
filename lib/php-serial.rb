@@ -2,6 +2,11 @@ require "php-serial/version"
 
 module Php
 
+  # Unserializes a PHP session
+  # 
+  # Params:
+  #   String data
+  # Returns: hash
   def self.unserialize_session(data)
     data = data.chomp
     hash = {}
@@ -13,7 +18,11 @@ module Php
     hash
   end
 
-  # will unserialize a string up to the first valid instance
+  # Unserializes a string up to the first valid serialized instance
+  # 
+  # Params:
+  #   String data
+  # Returns: mixed
   def self.unserialize(data='')
     var_type = data.slice!(0)
     data.slice!(0)
@@ -58,8 +67,11 @@ module Php
     value
   end
 
-
-
+  # Serializes a hash into PHP session
+  #
+  # Params:
+  #   Hash hash
+  # Returns: string
   def self.serialize_session(hash)
     serialized_session = ''
     hash.each do |key,value|
@@ -68,6 +80,12 @@ module Php
     serialized_session
   end
 
+
+  # Serializes a ruby object into PHP serialized format
+  #
+  # Params:
+  #   Mixed var
+  # Returns: string
   def self.serialize(var)
     val = ''
     case var.class.to_s
@@ -108,6 +126,13 @@ module Php
     val
   end
 
+  # Return all characters up to the first occurrence of char
+  # Truncates those characters from input string
+  # 
+  # Params:
+  #   String str
+  #   String char
+  # Returns: string
   def self.extract_until!(str, char)
     extracted = ''
     while (c = str.slice!(0))
