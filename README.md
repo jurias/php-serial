@@ -1,6 +1,7 @@
-# Php::Serial
+# Php-Serial
 
-TODO: Write a gem description
+PHP serialization library.  Reads and writes PHP's serialization format.
+Also has support for reading and writing PHP sessions.
 
 ## Installation
 
@@ -18,7 +19,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This library provides 4 public methods:
+Php.serialize
+
+    Php.serilialize ['string', 100]
+    => "a:2:{i:0;s:6:\"string\";i:1;i:100;}"
+Php.unserialize
+
+    Php.unserialize "a:2:{i:0;s:6:\"string\";i:1;i:100;}"
+    => ["string", 100]
+Php.serialize_session
+
+    Php.unserialize_session "var_a|s:6:\"string\";var_b|d:3.14"
+    => {"var_a"=>"string", "var_b"=>3.14}
+Php.unserialize_session
+
+    Php.unserialize_session {"var_a"=>"string", "var_b"=>3.14}
+    => "var_a|s:6:\"string\";var_b|d:3.14"
 
 ## Contributing
 

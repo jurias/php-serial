@@ -126,6 +126,12 @@ describe 'Unserialize' do
     expected = {"class" => "Person", "first_name" => "John", "last_name" => "Doe"}
     Php.unserialize(input).must_equal expected
   end
+
+  it 'should not alter the input' do
+    input = "serialized data"
+    Php.unserialize(input)
+    input.must_equal "serialized data"
+  end
 end
 
 
@@ -166,5 +172,11 @@ describe 'Unserialize Session' do
       "complex/key/E" => {"index" => {"index" => {"index" => {}}}}
     }
     Php.unserialize_session(input).must_equal expected
+  end
+
+  it 'should not alter the input' do
+    input = "serialized data"
+    Php.unserialize_session(input)
+    input.must_equal "serialized data"
   end
 end
