@@ -68,7 +68,7 @@ module Php
     data = data.strip
     hash = {}
     
-    while !data.empty? do
+    until data.empty? do
       key = extract_until!(data, "|")
       hash[key] = unserialize!(data)
     end
