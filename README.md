@@ -20,6 +20,7 @@ Or install it yourself as:
 ## Usage
 
 This library provides 4 public methods:
+
 Php.serialize
 
     Php.serilialize ['string', 100]
