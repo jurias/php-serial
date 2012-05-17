@@ -65,7 +65,7 @@ module Php
   #   String data
   # Returns: hash
   def self.unserialize_session(data)
-    data = data.chomp
+    data = data.strip
     hash = {}
     
     while !data.empty? do
