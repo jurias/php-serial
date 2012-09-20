@@ -31,12 +31,12 @@ Php.unserialize
     => ["string", 100]
 Php.serialize_session
 
-    Php.unserialize_session "var_a|s:6:\"string\";var_b|d:3.14"
-    => {"var_a"=>"string", "var_b"=>3.14}
+    Php.serialize_session {"var_a"=>"string", "var_b"=>3.14}
+    => "var_a|s:6:\"string\";var_b|d:3.14"
 Php.unserialize_session
 
-    Php.unserialize_session {"var_a"=>"string", "var_b"=>3.14}
-    => "var_a|s:6:\"string\";var_b|d:3.14"
+    Php.unserialize_session "var_a|s:6:\"string\";var_b|d:3.14"
+    => {"var_a"=>"string", "var_b"=>3.14}
 
 ## Contributing
 
