@@ -7,9 +7,21 @@ describe 'Serialize' do
     Php.serialize(input).must_equal expected
   end
 
+  it 'should correctly serialize strings with special characters' do
+    input = "è"
+    expected = 's:2:"è";'
+    Php.serialize(input).must_equal expected
+  end
+
   it 'should correctly serialize symbols' do
-    input = "This is a symbol"
+    input = :"This is a symbol"
     expected = 's:16:"This is a symbol";'
+    Php.serialize(input).must_equal expected
+  end
+
+  it 'should correctly serialize symbols with special characters' do
+    input = :"This is a symböl"
+    expected = 's:17:"This is a symböl";'
     Php.serialize(input).must_equal expected
   end
 
@@ -75,9 +87,9 @@ describe 'Unserialize' do
     Php.unserialize(input).must_equal expected
   end
 
-  it 'should correctly unserialize symbols' do
-    input = 's:16:"This is a symbol";'
-    expected = "This is a symbol"
+  it 'should correctly unserialize strings with special character' do
+    input ='s:2:"è";'
+    expected = "è"
     Php.unserialize(input).must_equal expected
   end
 
