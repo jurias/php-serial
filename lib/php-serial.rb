@@ -20,7 +20,7 @@ module Php
       when 'FalseClass'
         val = 'b:0' + ';'
       when 'String', 'Symbol'
-        val = 's:' + var.length.to_s + ':' + '"' + var.to_s + '";'
+        val = 's:' + var.to_s.bytesize.to_s + ':' + '"' + var.to_s + '";'
       when 'Array'
         val = 'a:' + var.length.to_s + ':' + '{'
         var.length.times do |index|
@@ -60,14 +60,14 @@ module Php
   end
 
   # Unserializes a PHP session
-  # 
+  #
   # Params:
   #   String data
   # Returns: hash
   def self.unserialize_session(data)
     data = data.strip
     hash = {}
-    
+
     until data.empty? do
       key = extract_until!(data, "|")
       hash[key] = unserialize!(data)
@@ -76,7 +76,7 @@ module Php
   end
 
   # Unserializes a string up to the first valid serialized instance
-  # 
+  #
   # Params:
   #   String data
   # Returns: mixed
@@ -87,11 +87,13 @@ module Php
   private
 
   # Unserializes recursively.  Consumes the input string.
-  # 
+  #
   # Params:
   #   String data
   # Returns: mixed
   def self.unserialize!(data='')
+    data.force_encoding("ASCII-8BIT")
+
     var_type = data.slice!(0)
     data.slice!(0)
     case var_type
@@ -102,7 +104,8 @@ module Php
       when "s"
         length = extract_until!(data, ":").to_i
         extract_until!(data, '"')
-        value = data.slice!(0,length)
+        # Assumes that all serialised strings are stored in UTF-8 or ASCII format
+        value = data.slice!(0, length).force_encoding("UTF-8")
         extract_until!(data, ";")
       when "i"
         value = extract_until!(data, ";").to_i
@@ -117,7 +120,7 @@ module Php
           value[key] = unserialize!(data)
         end
         extract_until!(data, "}")
-        # if keys are sequential numbers, return array        
+        # if keys are sequential numbers, return array
         value = value.values if Array(0..value.length-1) == value.keys and !value.empty?
       when "O"
         value = {}
@@ -137,7 +140,7 @@ module Php
 
   # Return all characters up to the first occurrence of char
   # Truncates those characters from input string
-  # 
+  #
   # Params:
   #   String str
   #   String char
