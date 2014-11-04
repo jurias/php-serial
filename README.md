@@ -23,7 +23,7 @@ This library provides 4 public methods:
 
 Php.serialize
 
-    Php.serilialize ['string', 100]
+    Php.serialize ['string', 100]
     => "a:2:{i:0;s:6:\"string\";i:1;i:100;}"
 Php.unserialize
 
